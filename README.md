@@ -46,7 +46,7 @@ abp new AbpUserVerificationByEmail -u blazor
 * Run the `AbpUserVerificationByEmail.HttpApi.Host` application to start the server side.
 * Run the `AbpUserVerificationByEmail.Blazor` application to start the Blazor UI project.
 
-## Basic setup for the RegisterModel
+## Basic implementation of the RegisterModel
 
 * Create a folder structure **Pages/Account** in the **HttpApi.Host** project of your application.
 * Add a **RegisterModel.cs** file to the **Account** folder and paste in code below.
