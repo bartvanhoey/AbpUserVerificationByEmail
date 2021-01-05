@@ -130,7 +130,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 // #endif
 ```
 
-If we don't comment out the statement below, the application will not send emails as class NullEmailSender will be injected by the Dependency Injection.
+If we don't comment out the statement above, the application will not send emails as class NullEmailSender will be injected by the Dependency Injection.
 
 ### Create a basic EmailService
 
