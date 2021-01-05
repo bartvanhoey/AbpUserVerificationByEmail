@@ -292,7 +292,7 @@ private void ConfigureIdentityOptions(ServiceConfigurationContext context)
 }
 ```
 
-## Complete setup email flow
+## Complete user registration flow
 
 ### Add `RegisterConfirmation` and `ConfirmEmail` pages to the Pages\Account folder of the **HttpApi.Host** project
 
