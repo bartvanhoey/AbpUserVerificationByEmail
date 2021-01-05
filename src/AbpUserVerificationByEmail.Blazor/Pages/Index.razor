@@ -1,0 +1,29 @@
+﻿@page "/"
+@using Volo.Abp.MultiTenancy
+@inherits AbpUserVerificationByEmailComponentBase
+@inject ICurrentTenant CurrentTenant
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<div class="container">
+    <div class="p-5 text-center">
+        @if (!CurrentUser.IsAuthenticated)
+        {
+            <Badge Color="Color.Danger" class="mb-4">
+                <h5 class="m-1"> <i class="fas fa-email"></i> <strong>User is NOT Authenticated!</strong></h5>
+            </Badge>
+        }
+
+        @if (CurrentUser.IsAuthenticated && !CurrentUser.EmailVerified)
+        {
+            <Badge Color="Color.Warning" class="mb-4">
+                <h5 class="m-1"> <i class="fas fa-email"></i> <strong>User has not NOT been verified by email yet!</strong></h5>
+            </Badge>
+        }
+
+        @if (CurrentUser.IsAuthenticated && CurrentUser.EmailVerified)
+        {
+            <Badge Color="Color.Success" class="mb-4">
+                <h5 class="m-1"> <i class="fas fa-email"></i> <strong>User is successfully verified by email!</strong></h5>
+            </Badge>
+        }
+    </div>
+</div>
