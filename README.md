@@ -124,13 +124,13 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 
 * In file **AbpUserVerificationByEmailDomainModule.cs**  comment out the statement below.
 
-If we don't comment out the statement below, the application will not send emails as class NullEmailSender will be injected by the Dependency Injection.
-
 ```csharp
 // #if DEBUG
 //    context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
 // #endif
 ```
+
+If we don't comment out the statement below, the application will not send emails as class NullEmailSender will be injected by the Dependency Injection.
 
 ### Create a basic EmailService
 
