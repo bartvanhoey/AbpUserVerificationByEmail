@@ -258,7 +258,7 @@ public class EmailService : ITransientDependency
 
 ![User has not been email verified yet](images/usernotverifiedbyemail.jpg)
 
-## Update SignIn IdentityOptions so that a user has to confirm his email address
+## Update SignIn IdentityOptions so a user has to confirm his email address
 
 * Open file **AbpUserVerificationByEmailHttpApiModule.cs** in the **AbpUserVerificationByEmail.HttpApi.Host** project
 * Add `ConfigureIdentityOptions(context);` as last statement in the **ConfigureServices** method.
