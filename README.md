@@ -157,22 +157,22 @@ namespace AbpUserVerificationByEmail.Domain.Email
 
     public async Task SendEmailAsync()
     {
-      var encryptedGooglePassword = _encryptionService.Encrypt("your-google-password-here");
+      var encryptedGmailPassword = _encryptionService.Encrypt("your-gmail-password-here");
       await _emailSender.SendAsync("recipient-email-here", "Email subject", "This is the email body...");
     }
   }
 }
 ```
 
-### Get the encrypted Google password
+### Get the encrypted Gmail password
 
 * Set a breakpoint on line *await _emailSender.SendAsync("...");*
-* Replace *your-google-password-here* with your Google account password.
+* Replace *your-gmail-password-here* with your Gmail password.
 * Replace *recipient-email-here* with your own email address.
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
-* Copy the value of the **encryptedGooglePassword** when the breakpoint gets hit.
+* Copy the value of the **encryptedGmailPassword** when the breakpoint gets hit.
 * Stop both the Blazor and the HttpApi.Host project.
 * Open file **appsettings.json** in project **HttpApi.Host** and update the **Smtp Settings** with the correct values.
   
@@ -180,12 +180,12 @@ namespace AbpUserVerificationByEmail.Domain.Email
 "Settings": {
     "Abp.Mailing.Smtp.Host": "smtp.gmail.com",
     "Abp.Mailing.Smtp.Port": "587",
-    "Abp.Mailing.Smtp.UserName": "your-google-email-address-here",
-    "Abp.Mailing.Smtp.Password": "your-encrypted-google-password-here",
+    "Abp.Mailing.Smtp.UserName": "your-gmail-email-address-here",
+    "Abp.Mailing.Smtp.Password": "your-encrypted-gmail-password-here",
     "Abp.Mailing.Smtp.Domain": "",
     "Abp.Mailing.Smtp.EnableSsl": "true",
     "Abp.Mailing.Smtp.UseDefaultCredentials": "false",
-    "Abp.Mailing.DefaultFromAddress": "your-google-email-address-here",
+    "Abp.Mailing.DefaultFromAddress": "your-gmail-email-address-here",
     "Abp.Mailing.DefaultFromDisplayName": "Your-Custom-Text-Here"
   }
 ```
@@ -254,11 +254,11 @@ public class EmailService : ITransientDependency
 ```
 
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
-* Go to the Login form and login with the credentials of the new user. The user is **logged in** but **not email verified**.
+* Go to the **Login** form and login with the credentials of the new user. The user is **logged in** but **not email verified**.
 
 ![User has not been email verified yet](images/usernotverifiedbyemail.jpg)
 
-## Update SignIn IdentityOptions so that User has to confirm his Email Address
+## Update SignIn IdentityOptions so that a user has to confirm his email address
 
 * Open file **AbpUserVerificationByEmailHttpApiModule.cs** in the **AbpUserVerificationByEmail.HttpApi.Host** project
 * Add `ConfigureIdentityOptions(context);` as last statement in the **ConfigureServices** method.
@@ -372,7 +372,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
       }
 
       // TODO Set to false if you no longer want to display the Account/ConfirmEmail page
-      DisplayConfirmAccountLink = false;
+      DisplayConfirmAccountLink = true;
       if (DisplayConfirmAccountLink)
       {
         var userId = await _userManager.GetUserIdAsync(user);
