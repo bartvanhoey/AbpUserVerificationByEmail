@@ -169,7 +169,7 @@ namespace AbpUserVerificationByEmail.Domain.Email
 * Set a breakpoint on line *await _emailSender.SendAsync("...");*
 * Replace *your-google-password-here* with your Google account password.
 * Replace *recipient-email-here* with your own email address.
-* Start both the Blazor and HttpApi.Host project to run the application.
+* Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
 * Copy the value of the **encryptedGooglePassword** when the breakpoint gets hit.
@@ -211,8 +211,9 @@ public class EmailService : ITransientDependency
     }
  }
 ```
-* If you already registered a user, delete it first in table AbpUsers in the database.
-* Start both the Blazor and HttpApi.Host project to run the application.
+
+* If you already registered a user, delete it first in table **AbpUsers** in the database.
+* Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page again and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
 * If all goes well, you should **receive an email** sent by the EmailService and the **user should have been registered**.
@@ -252,7 +253,7 @@ public class EmailService : ITransientDependency
 </div>
 ```
 
-* Start both the Blazor and HttpApi.Host project to run the application.
+* Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Go to the Login form and login with the credentials of the new user. The user is **logged in** but **not email verified**.
 
 ![User has not been email verified yet](images/usernotverifiedbyemail.jpg)
@@ -527,8 +528,8 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 
 ## Test Registration flow and User Email Verification
 
-* If you already registered a user, delete it first in table AbpUsers in the database.
-* Start both the Blazor and HttpApi.Host project to run the application.
+* If you already registered a user, delete it first in table **AbpUsers** in the database.
+* Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
 * Goto your email inbox and click on the [clicking here](https://localhost:44367/) link to confirm your account.
