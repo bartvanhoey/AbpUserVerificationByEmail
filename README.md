@@ -135,7 +135,7 @@ If we don't comment out the statement above, the application will not send email
 ### Create a basic EmailService
 
 * Create a folder  **Email** in the **Domain** project of your application.
-* Add a **EmailService.cs** class to the **Email** folder. Copy/paste code below.
+* Add an **EmailService.cs** class to the **Email** folder. Copy/paste code below.
 
 ```csharp
 using System.Threading.Tasks;
