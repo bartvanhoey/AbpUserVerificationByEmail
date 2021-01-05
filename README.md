@@ -8,7 +8,7 @@ In this article, I will show you how to get a user verified by email after he fi
 
 The sample application has been developed with **Blazor** as UI framework and **SQL Server** as database provider.
 
-In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application however,  you probably would chose another Email Delivery Service like SendGrid, Mailjet, ...
+In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application however,  you probably would chose another **Email Delivery Service** like **SendGrid, Mailjet, etc.**
 
 ### Source Code
 
