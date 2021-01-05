@@ -21,7 +21,7 @@ The following tools are needed to be able to run the solution.
 * .NET 5.0 SDK
 * VsCode, Visual Studio 2019 16.8.0+ or another compatible IDE
 
-You also need a Google Mail account to follow along.
+You also need a **Gmail** account to follow along.
 
 ## Development
 
