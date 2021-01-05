@@ -211,7 +211,7 @@ public class EmailService : ITransientDependency
     }
  }
 ```
-
+* If you already registered a user, delete it first in table AbpUsers in the database.
 * Start both the Blazor and HttpApi.Host project to run the application.
 * Navigate to the **Login** page again and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
