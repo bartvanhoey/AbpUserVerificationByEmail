@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this article, I will show you how to get a user verified by email after he fills in the registration form in a **Blazor APB application**
+In this article, I will show you how to get a user verified by email after he fills in the registration form in a **Blazor APB application**.
 
 The sample application has been developed with **Blazor** as UI framework and **SQL Server** as database provider.
 
