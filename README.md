@@ -451,7 +451,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 }
 ```
 
-### Update class CustomRegisterModel in HttpApi.Host project
+### Update file RegisterModel in HttpApi.Host project
 
 * Comment out/delete the **RegisterLocalUserAsync** method.
 * Add method **OnPostAsync** to handle the Registration flow (see complete code below)
