@@ -6,6 +6,6 @@ namespace AbpUserVerificationByEmail.Blazor
     [Dependency(ReplaceServices = true)]
     public class AbpUserVerificationByEmailBrandingProvider : DefaultBrandingProvider
     {
-        public override string AppName => "AbpUserVerificationByEmail";
+        public override string AppName => "User Email Verification";
     }
 }
