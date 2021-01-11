@@ -535,7 +535,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 * Goto your email inbox and click on the [clicking here](https://localhost:44367/) link to confirm your account.
 * Navigate to the **Login** page and enter your credentials. Click **Login**.
 
-Et voilà! This is the result. The User is successfully verified by email.
+Et voilà! This is the result. **The user's email address is successfully verified**!
 
 ![User verified by email](images/userverifiedbyemail.jpg)
 
