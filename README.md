@@ -371,8 +371,8 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
         return NotFound($"Unable to load user with email '{email}'.");
       }
 
-      // TODO Set to false if you no longer want to display the Account/ConfirmEmail page
-      DisplayConfirmAccountLink = true;
+      // TODO Set to true if you want to display the Account/ConfirmEmail page
+      DisplayConfirmAccountLink = false;
       if (DisplayConfirmAccountLink)
       {
         var userId = await _userManager.GetUserIdAsync(user);
