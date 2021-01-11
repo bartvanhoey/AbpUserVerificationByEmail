@@ -1,6 +1,4 @@
-## Setup email verification after user registration in an ABP application
-
-![.NET](https://github.com/bartvanhoey/AbpUserVerificationByEmail/workflows/.NET/badge.svg)
+## Setup Email Confirmation on User Registration
 
 ## Introduction
 
