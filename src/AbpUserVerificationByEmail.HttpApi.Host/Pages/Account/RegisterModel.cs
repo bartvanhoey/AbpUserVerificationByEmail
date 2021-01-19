@@ -18,6 +18,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
   {
     private readonly IAccountAppService _accountAppService;
     private readonly IEmailSender _emailSender;
+    private Volo.Abp.Identity.IdentityUser _abpIdentityUser;
 
     public CustomRegisterModel(IAccountAppService accountAppService, IEmailSender emailSender) : base(accountAppService)
     {
@@ -46,7 +47,16 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
           await RegisterLocalUserAsync();
         }
 
-        return Redirect(ReturnUrl ?? "~/"); //TODO: How to ensure safety? IdentityServer requires it however it should be checked somehow!
+        if (UserManager.Options.SignIn.RequireConfirmedAccount)
+        {
+          return RedirectToPage("RegisterConfirmation", new { email = Input.EmailAddress, returnUrl = ReturnUrl });
+        }
+        else
+        {
+          await SignInManager.SignInAsync(_abpIdentityUser, isPersistent: true);
+          return LocalRedirect(ReturnUrl);
+        }
+       // return Redirect(ReturnUrl ?? "~/"); //TODO: How to ensure safety? IdentityServer requires it however it should be checked somehow!
       }
       catch (BusinessException e)
       {
@@ -69,10 +79,10 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
           }
       );
 
-      var user = await UserManager.GetByIdAsync(userDto.Id);
+      _abpIdentityUser = await UserManager.GetByIdAsync(userDto.Id);
 
       // Send user an email to confirm email address      
-      await SendEmailToAskForEmailConfirmationAsync(user);
+      await SendEmailToAskForEmailConfirmationAsync(_abpIdentityUser);
     }
 
     protected override async Task RegisterExternalUserAsync(ExternalLoginInfo externalLoginInfo, string emailAddress)
@@ -101,7 +111,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
       await SendEmailToAskForEmailConfirmationAsync(user);
     }
 
-  
+
     private async Task SendEmailToAskForEmailConfirmationAsync(Volo.Abp.Identity.IdentityUser user)
     {
       var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -111,16 +121,6 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
       // TODO use EmailService instead of using IEmailSender directly
       await _emailSender.SendAsync(Input.EmailAddress, "Confirm your email",
           $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-      if (UserManager.Options.SignIn.RequireConfirmedAccount)
-      {
-        RedirectToPage("RegisterConfirmation", new { email = Input.EmailAddress, returnUrl = ReturnUrl });
-      }
-      else
-      {
-        await SignInManager.SignInAsync(user, isPersistent: true);
-        LocalRedirect(ReturnUrl);
-      }
     }
 
   }
