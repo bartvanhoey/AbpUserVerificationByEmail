@@ -4,13 +4,13 @@
 
 In this article, I will show you how to get a user verified by email after he fills in the registration form in a **Blazor APB application**.
 
-The sample application has been developed with **Blazor** as UI framework and **SQL Server** as database provider.
-
-In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application however,  you probably would chose another **Email Delivery Service** like **SendGrid, Mailjet, etc.**
+In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application, however,  you probably would choose another **Email Delivery Service** like **SendGrid, Mailjet, etc.**
 
 ### Source Code
 
-Source code of the completed application is [available on GitHub](https://github.com/bartvanhoey/AbpUserVerificationByEmail).
+The sample application has been developed with **Blazor** as UI framework and **SQL Server** as database provider.
+
+The source code of the completed application is [available on GitHub](https://github.com/bartvanhoey/AbpUserVerificationByEmail).
 
 ## Requirements
 
@@ -34,14 +34,14 @@ dotnet tool install -g Volo.Abp.Cli || dotnet tool update -g Volo.Abp.Cli
 * Use the following ABP CLI command to create a new Blazor ABP application:
 
 ```bash
-abp new AbpUserVerificationByEmail -u blazor
+abp new AbpUserVerificationByEmail -u blazor -o AbpUserVerificationByEmail
 ```
 
 ### Open & Run the Application
 
 * Open the solution in Visual Studio (or your favorite IDE).
 * Run the `AbpUserVerificationByEmail.DbMigrator` application to apply the migrations and seed the initial data.
-* Run the `AbpUserVerificationByEmail.HttpApi.Host` application to start the server side.
+* Run the `AbpUserVerificationByEmail.HttpApi.Host` application to start the server-side.
 * Run the `AbpUserVerificationByEmail.Blazor` application to start the Blazor UI project.
 
 ## Basic implementation of the RegisterModel
@@ -118,7 +118,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 
 ## Implement Email Functionality
 
-### Comment out statement that injects class NullEmailSender in the **Domain** project
+### Comment out the statement that injects class NullEmailSender in the **Domain** project
 
 * In file **AbpUserVerificationByEmailDomainModule.cs**  comment out the statement below.
 
@@ -164,9 +164,9 @@ namespace AbpUserVerificationByEmail.Domain.Email
 
 ### Get the encrypted Gmail password
 
-* Set a breakpoint on line *await _emailSender.SendAsync("...");*
-* Replace *your-gmail-password-here* with your Gmail password.
-* Replace *recipient-email-here* with your own email address.
+* Set a breakpoint online *await _emailSender.SendAsync("...");*
+* Replace *your Gmail-password-here* with your Gmail password.
+* Replace *recipient-email-here* with your email address.
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
@@ -188,9 +188,9 @@ namespace AbpUserVerificationByEmail.Domain.Email
   }
 ```
 
-### Check if you can send and receive email with the EmailService
+### Check if you can send and receive an email with the EmailService
 
-* Remove the **IStringEncryptionService** from  the **EmailService** class as no longer needed.
+* Remove the **IStringEncryptionService** from the **EmailService** class as no longer needed.
 
 ```csharp
 public class EmailService : ITransientDependency
@@ -588,7 +588,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
-* Goto your email inbox and click on the [clicking here](https://localhost:44367/) link to confirm your account.
+* Go to your email inbox and click on the [clicking here](https://localhost:44367/) link to confirm your account.
 * Navigate to the **Login** page and enter your credentials. Click **Login**.
 
 Et voilà! This is the result. **The user's email address is successfully verified**!
