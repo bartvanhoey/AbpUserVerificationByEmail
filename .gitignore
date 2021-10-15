@@ -258,4 +258,5 @@ src/AbpUserVerificationByEmail.IdentityServer/Logs/*
 src/AbpUserVerificationByEmail.HttpApi.Host/Logs/*
 src/AbpUserVerificationByEmail.HttpApi.Host/Logs/*
 src/AbpUserVerificationByEmail.DbMigrator/Logs/*
-src/AbpUserVerificationByEmail.HttpApi.Host/appsettings.json
+src/AbpUserVerificationByEmail.Blazor.Server/Logs/*
+src/AbpUserVerificationByEmail.Blazor.Server.Tiered/Logs/*

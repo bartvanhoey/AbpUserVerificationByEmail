@@ -2,6 +2,9 @@
 
 namespace AbpUserVerificationByEmail.Blazor
 {
+    /* Add your global styles/scripts here.
+     * See https://docs.abp.io/en/abp/latest/UI/Blazor/Global-Scripts-Styles to learn how to use it
+     */
     public class AbpUserVerificationByEmailBundleContributor : IBundleContributor
     {
         public void AddScripts(BundleContext context)
@@ -11,7 +14,7 @@ namespace AbpUserVerificationByEmail.Blazor
 
         public void AddStyles(BundleContext context)
         {
-            context.Add("main.css");
+            context.Add("main.css", true);
         }
     }
 }

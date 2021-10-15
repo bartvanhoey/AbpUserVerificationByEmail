@@ -7,18 +7,18 @@ namespace AbpUserVerificationByEmail.EntityFrameworkCore
 {
     /* This class is needed for EF Core console commands
      * (like Add-Migration and Update-Database commands) */
-    public class AbpUserVerificationByEmailMigrationsDbContextFactory : IDesignTimeDbContextFactory<AbpUserVerificationByEmailMigrationsDbContext>
+    public class AbpUserVerificationByEmailDbContextFactory : IDesignTimeDbContextFactory<AbpUserVerificationByEmailDbContext>
     {
-        public AbpUserVerificationByEmailMigrationsDbContext CreateDbContext(string[] args)
+        public AbpUserVerificationByEmailDbContext CreateDbContext(string[] args)
         {
             AbpUserVerificationByEmailEfCoreEntityExtensionMappings.Configure();
 
             var configuration = BuildConfiguration();
 
-            var builder = new DbContextOptionsBuilder<AbpUserVerificationByEmailMigrationsDbContext>()
+            var builder = new DbContextOptionsBuilder<AbpUserVerificationByEmailDbContext>()
                 .UseSqlServer(configuration.GetConnectionString("Default"));
 
-            return new AbpUserVerificationByEmailMigrationsDbContext(builder.Options);
+            return new AbpUserVerificationByEmailDbContext(builder.Options);
         }
 
         private static IConfigurationRoot BuildConfiguration()

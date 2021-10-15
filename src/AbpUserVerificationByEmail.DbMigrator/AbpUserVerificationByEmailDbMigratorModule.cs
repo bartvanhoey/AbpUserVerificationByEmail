@@ -7,7 +7,7 @@ namespace AbpUserVerificationByEmail.DbMigrator
 {
     [DependsOn(
         typeof(AbpAutofacModule),
-        typeof(AbpUserVerificationByEmailEntityFrameworkCoreDbMigrationsModule),
+        typeof(AbpUserVerificationByEmailEntityFrameworkCoreModule),
         typeof(AbpUserVerificationByEmailApplicationContractsModule)
         )]
     public class AbpUserVerificationByEmailDbMigratorModule : AbpModule

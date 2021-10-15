@@ -11,7 +11,7 @@ using Volo.Abp.Modularity;
 namespace AbpUserVerificationByEmail.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(AbpUserVerificationByEmailEntityFrameworkCoreDbMigrationsModule),
+        typeof(AbpUserVerificationByEmailEntityFrameworkCoreModule),
         typeof(AbpUserVerificationByEmailTestBaseModule),
         typeof(AbpEntityFrameworkCoreSqliteModule)
         )]
@@ -47,11 +47,11 @@ namespace AbpUserVerificationByEmail.EntityFrameworkCore
             var connection = new SqliteConnection("Data Source=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<AbpUserVerificationByEmailMigrationsDbContext>()
+            var options = new DbContextOptionsBuilder<AbpUserVerificationByEmailDbContext>()
                 .UseSqlite(connection)
                 .Options;
 
-            using (var context = new AbpUserVerificationByEmailMigrationsDbContext(options))
+            using (var context = new AbpUserVerificationByEmailDbContext(options))
             {
                 context.GetService<IRelationalDatabaseCreator>().CreateTables();
             }

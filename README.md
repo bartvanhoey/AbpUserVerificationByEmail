@@ -44,6 +44,7 @@ abp new AbpUserVerificationByEmail -u blazor -o AbpUserVerificationByEmail
 * Run the `AbpUserVerificationByEmail.HttpApi.Host` application to start the server-side.
 * Run the `AbpUserVerificationByEmail.Blazor` application to start the Blazor UI project.
 
+
 ## Basic implementation of the RegisterModel
 
 * Create a folder structure **Pages/Account** in the **HttpApi.Host** project of your application.
@@ -164,7 +165,7 @@ namespace AbpUserVerificationByEmail.Domain.Email
 
 ### Get the encrypted Gmail password
 
-* Set a breakpoint online *await _emailSender.SendAsync("...");*
+* Set a breakpoint on the line *await _emailSender.SendAsync("...");*
 * Replace *your Gmail-password-here* with your Gmail password.
 * Replace *recipient-email-here* with your email address.
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
@@ -220,6 +221,7 @@ public class EmailService : ITransientDependency
 
 **WARNING**: Make sure you **don't publish** your **Google Credentials** to **GitHub** or **another Versioning System**.
 
+
 ## Change Index.razor of the Blazor project
 
 * Open **Index.razor** and update **div class="container"** with the code below.
@@ -263,6 +265,9 @@ public class EmailService : ITransientDependency
 * Add a private method **ConfigureIdentityOptions** just beneath the ****ConfigureServices**** method.
   
 ```csharp
+// import using statements
+using Microsoft.AspNetCore.Identity;
+
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
     var configuration = context.Services.GetConfiguration();
@@ -293,39 +298,6 @@ private void ConfigureIdentityOptions(ServiceConfigurationContext context)
 ## Complete user registration flow
 
 ### Add `RegisterConfirmation` and `ConfirmEmail` pages to the Pages\Account folder of the **HttpApi.Host** project
-
-* Create a new file **RegisterConfirmation.cshtml** to the **Pages\Account**  folder and copy/paste the code below.
-
-```html
-@page
-@model AbpUserVerificationByEmail.HttpApi.Host.Pages.Account.CustomRegisterConfirmationModel
-@{
-    ViewData["Title"] = "Register confirmation";
-}
-
-<div class="card mt-3 shadow-sm rounded">
-    <div class="card-body p-5">
-        <h4>@ViewData["Title"]</h4>
-        @{
-            if (@Model.DisplayConfirmAccountLink)
-            {
-                <p>
-                    This app does not currently have a real email sender registered, see <a
-                        href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-                    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to
-                        confirm your account</a>
-                </p>
-            }
-            else
-            {
-                <p>
-                    Please check your email to confirm your account.
-                </p>
-            }
-        }
-    </div>
-</div>
-```  
 
 * Create a new file **RegisterConfirmationModel.cs** to the **Pages\Account** folder and copy/paste the code below.
   
@@ -388,20 +360,35 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 }
 ```
 
-* Create a new file **ConfirmEmail.cshtml** to the **Pages\Account** folder and copy/paste the code below.
+* Create a new file **RegisterConfirmation.cshtml** to the **Pages\Account**  folder and copy/paste the code below.
 
 ```html
 @page
-@model AbpUserVerificationByEmail.HttpApi.Host.Pages.Account.CustomConfirmEmailModel
+@model AbpUserVerificationByEmail.HttpApi.Host.Pages.Account.CustomRegisterConfirmationModel
 @{
-    ViewData["Title"] = "Email Confirmed";
+    ViewData["Title"] = "Register confirmation";
 }
 
 <div class="card mt-3 shadow-sm rounded">
     <div class="card-body p-5">
         <h4>@ViewData["Title"]</h4>
-        <hr>
-        Email Successfully Confirmed
+        @{
+            if (@Model.DisplayConfirmAccountLink)
+            {
+                <p>
+                    This app does not currently have a real email sender registered, see <a
+                        href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+                    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to
+                        confirm your account</a>
+                </p>
+            }
+            else
+            {
+                <p>
+                    Please check your email to confirm your account.
+                </p>
+            }
+        }
     </div>
 </div>
 ```  
@@ -450,7 +437,25 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 }
 ```
 
-### Update file RegisterModel in HttpApi.Host project
+* Create a new file **ConfirmEmail.cshtml** to the **Pages\Account** folder and copy/paste the code below.
+
+```html
+@page
+@model AbpUserVerificationByEmail.HttpApi.Host.Pages.Account.CustomConfirmEmailModel
+@{
+    ViewData["Title"] = "Email Confirmed";
+}
+
+<div class="card mt-3 shadow-sm rounded">
+    <div class="card-body p-5">
+        <h4>@ViewData["Title"]</h4>
+        <hr>
+        Email Successfully Confirmed
+    </div>
+</div>
+```  
+
+### Update file RegisterModel.cs in HttpApi.Host project
 
 ```csharp
 using System.Linq;

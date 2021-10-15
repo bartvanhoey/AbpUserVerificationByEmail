@@ -8,6 +8,7 @@ namespace AbpUserVerificationByEmail.Domain.Email
   public class EmailService : ITransientDependency
   {
     private readonly IEmailSender _emailSender;
+    public IStringEncryptionService _encryptionService { get; set; }
 
     public EmailService(IEmailSender emailSender)
     {

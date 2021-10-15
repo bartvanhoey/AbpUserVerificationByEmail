@@ -20,14 +20,14 @@ namespace AbpUserVerificationByEmail.EntityFrameworkCore
 
         public async Task MigrateAsync()
         {
-            /* We intentionally resolving the AbpUserVerificationByEmailMigrationsDbContext
+            /* We intentionally resolving the AbpUserVerificationByEmailDbContext
              * from IServiceProvider (instead of directly injecting it)
              * to properly get the connection string of the current tenant in the
              * current scope.
              */
 
             await _serviceProvider
-                .GetRequiredService<AbpUserVerificationByEmailMigrationsDbContext>()
+                .GetRequiredService<AbpUserVerificationByEmailDbContext>()
                 .Database
                 .MigrateAsync();
         }

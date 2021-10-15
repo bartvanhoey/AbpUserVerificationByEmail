@@ -9,7 +9,6 @@ namespace AbpUserVerificationByEmail.Permissions
         public override void Define(IPermissionDefinitionContext context)
         {
             var myGroup = context.AddGroup(AbpUserVerificationByEmailPermissions.GroupName);
-
             //Define your own permissions here. Example:
             //myGroup.AddPermission(AbpUserVerificationByEmailPermissions.MyPermission1, L("Permission:MyPermission1"));
         }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AbpUserVerificationByEmail.Localization;
 using Volo.Abp.Account.Localization;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
 
@@ -50,21 +51,16 @@ namespace AbpUserVerificationByEmail.Blazor.Menus
         private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
         {
             var accountStringLocalizer = context.GetLocalizer<AccountResource>();
-            var currentUser = context.ServiceProvider.GetRequiredService<ICurrentUser>();
 
             var identityServerUrl = _configuration["AuthServer:Authority"] ?? "";
 
-            if (currentUser.IsAuthenticated)
-            {
-                context.Menu.AddItem(new ApplicationMenuItem(
-                    "Account.Manage",
-                    accountStringLocalizer["ManageYourProfile"],
-                    $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage",
-                    icon: "fa fa-cog",
-                    order: 1000,
-                    null,
-                    "_blank"));
-            }
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Account.Manage",
+                accountStringLocalizer["MyAccount"],
+                $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage?returnUrl={_configuration["App:SelfUrl"]}",
+                icon: "fa fa-cog",
+                order: 1000,
+                null).RequireAuthenticated());
 
             return Task.CompletedTask;
         }
