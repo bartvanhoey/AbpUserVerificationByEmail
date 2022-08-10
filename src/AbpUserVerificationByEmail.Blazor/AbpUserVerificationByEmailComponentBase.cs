@@ -1,13 +1,12 @@
 ﻿using AbpUserVerificationByEmail.Localization;
 using Volo.Abp.AspNetCore.Components;
 
-namespace AbpUserVerificationByEmail.Blazor
+namespace AbpUserVerificationByEmail.Blazor;
+
+public abstract class AbpUserVerificationByEmailComponentBase : AbpComponentBase
 {
-    public abstract class AbpUserVerificationByEmailComponentBase : AbpComponentBase
+    protected AbpUserVerificationByEmailComponentBase()
     {
-        protected AbpUserVerificationByEmailComponentBase()
-        {
-            LocalizationResource = typeof(AbpUserVerificationByEmailResource);
-        }
+        LocalizationResource = typeof(AbpUserVerificationByEmailResource);
     }
 }

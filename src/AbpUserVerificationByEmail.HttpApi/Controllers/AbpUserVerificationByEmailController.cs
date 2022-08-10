@@ -1,15 +1,14 @@
 ﻿using AbpUserVerificationByEmail.Localization;
 using Volo.Abp.AspNetCore.Mvc;
 
-namespace AbpUserVerificationByEmail.Controllers
+namespace AbpUserVerificationByEmail.Controllers;
+
+/* Inherit your controllers from this class.
+ */
+public abstract class AbpUserVerificationByEmailController : AbpControllerBase
 {
-    /* Inherit your controllers from this class.
-     */
-    public abstract class AbpUserVerificationByEmailController : AbpController
+    protected AbpUserVerificationByEmailController()
     {
-        protected AbpUserVerificationByEmailController()
-        {
-            LocalizationResource = typeof(AbpUserVerificationByEmailResource);
-        }
+        LocalizationResource = typeof(AbpUserVerificationByEmailResource);
     }
 }

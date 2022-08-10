@@ -7,26 +7,25 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 
-namespace AbpUserVerificationByEmail
+namespace AbpUserVerificationByEmail;
+
+[DependsOn(
+    typeof(AbpUserVerificationByEmailDomainModule),
+    typeof(AbpAccountApplicationModule),
+    typeof(AbpUserVerificationByEmailApplicationContractsModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpPermissionManagementApplicationModule),
+    typeof(AbpTenantManagementApplicationModule),
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpSettingManagementApplicationModule)
+    )]
+public class AbpUserVerificationByEmailApplicationModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpUserVerificationByEmailDomainModule),
-        typeof(AbpAccountApplicationModule),
-        typeof(AbpUserVerificationByEmailApplicationContractsModule),
-        typeof(AbpIdentityApplicationModule),
-        typeof(AbpPermissionManagementApplicationModule),
-        typeof(AbpTenantManagementApplicationModule),
-        typeof(AbpFeatureManagementApplicationModule),
-        typeof(AbpSettingManagementApplicationModule)
-        )]
-    public class AbpUserVerificationByEmailApplicationModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpAutoMapperOptions>(options =>
         {
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<AbpUserVerificationByEmailApplicationModule>();
-            });
-        }
+            options.AddMaps<AbpUserVerificationByEmailApplicationModule>();
+        });
     }
 }

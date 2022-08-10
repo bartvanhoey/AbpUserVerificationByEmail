@@ -1,11 +1,10 @@
 ﻿using Volo.Abp.DependencyInjection;
 using Volo.Abp.Ui.Branding;
 
-namespace AbpUserVerificationByEmail
+namespace AbpUserVerificationByEmail;
+
+[Dependency(ReplaceServices = true)]
+public class AbpUserVerificationByEmailBrandingProvider : DefaultBrandingProvider
 {
-    [Dependency(ReplaceServices = true)]
-    public class AbpUserVerificationByEmailBrandingProvider : DefaultBrandingProvider
-    {
-        public override string AppName => "AbpUserVerificationByEmail";
-    }
+    public override string AppName => "AbpUserVerificationByEmail";
 }

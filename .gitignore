@@ -254,9 +254,12 @@ paket-files/
 # AbpUserVerificationByEmail
 src/AbpUserVerificationByEmail.Web/Logs/*
 src/AbpUserVerificationByEmail.Web.Host/Logs/*
-src/AbpUserVerificationByEmail.IdentityServer/Logs/*
+src/AbpUserVerificationByEmail.AuthServer/Logs/*
 src/AbpUserVerificationByEmail.HttpApi.Host/Logs/*
 src/AbpUserVerificationByEmail.HttpApi.Host/Logs/*
 src/AbpUserVerificationByEmail.DbMigrator/Logs/*
 src/AbpUserVerificationByEmail.Blazor.Server/Logs/*
 src/AbpUserVerificationByEmail.Blazor.Server.Tiered/Logs/*
+
+# Use abp install-libs to restore.
+**/wwwroot/libs/*

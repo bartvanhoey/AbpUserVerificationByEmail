@@ -5,31 +5,30 @@ using Microsoft.Extensions.DependencyInjection;
 using AbpUserVerificationByEmail.Data;
 using Volo.Abp.DependencyInjection;
 
-namespace AbpUserVerificationByEmail.EntityFrameworkCore
+namespace AbpUserVerificationByEmail.EntityFrameworkCore;
+
+public class EntityFrameworkCoreAbpUserVerificationByEmailDbSchemaMigrator
+    : IAbpUserVerificationByEmailDbSchemaMigrator, ITransientDependency
 {
-    public class EntityFrameworkCoreAbpUserVerificationByEmailDbSchemaMigrator
-        : IAbpUserVerificationByEmailDbSchemaMigrator, ITransientDependency
+    private readonly IServiceProvider _serviceProvider;
+
+    public EntityFrameworkCoreAbpUserVerificationByEmailDbSchemaMigrator(
+        IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        public EntityFrameworkCoreAbpUserVerificationByEmailDbSchemaMigrator(
-            IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+    public async Task MigrateAsync()
+    {
+        /* We intentionally resolving the AbpUserVerificationByEmailDbContext
+         * from IServiceProvider (instead of directly injecting it)
+         * to properly get the connection string of the current tenant in the
+         * current scope.
+         */
 
-        public async Task MigrateAsync()
-        {
-            /* We intentionally resolving the AbpUserVerificationByEmailDbContext
-             * from IServiceProvider (instead of directly injecting it)
-             * to properly get the connection string of the current tenant in the
-             * current scope.
-             */
-
-            await _serviceProvider
-                .GetRequiredService<AbpUserVerificationByEmailDbContext>()
-                .Database
-                .MigrateAsync();
-        }
+        await _serviceProvider
+            .GetRequiredService<AbpUserVerificationByEmailDbContext>()
+            .Database
+            .MigrateAsync();
     }
 }

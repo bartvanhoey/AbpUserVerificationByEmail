@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 
-namespace AbpUserVerificationByEmail.Blazor
+namespace AbpUserVerificationByEmail.Blazor;
+
+public class AbpUserVerificationByEmailBlazorAutoMapperProfile : Profile
 {
-    public class AbpUserVerificationByEmailBlazorAutoMapperProfile : Profile
+    public AbpUserVerificationByEmailBlazorAutoMapperProfile()
     {
-        public AbpUserVerificationByEmailBlazorAutoMapperProfile()
-        {
-            //Define your AutoMapper configuration here for the Blazor project.
-        }
+        //Define your AutoMapper configuration here for the Blazor project.
     }
 }

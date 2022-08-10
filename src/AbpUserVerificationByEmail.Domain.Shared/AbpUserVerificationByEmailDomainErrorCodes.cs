@@ -1,7 +1,6 @@
-﻿namespace AbpUserVerificationByEmail
+﻿namespace AbpUserVerificationByEmail;
+
+public static class AbpUserVerificationByEmailDomainErrorCodes
 {
-    public static class AbpUserVerificationByEmailDomainErrorCodes
-    {
-        /* You can add your business exception error codes here, as constants */
-    }
+    /* You can add your business exception error codes here, as constants */
 }

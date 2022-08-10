@@ -3,57 +3,56 @@ using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
-using Volo.Abp.IdentityServer;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
-namespace AbpUserVerificationByEmail
+namespace AbpUserVerificationByEmail;
+
+[DependsOn(
+    typeof(AbpAuditLoggingDomainSharedModule),
+    typeof(AbpBackgroundJobsDomainSharedModule),
+    typeof(AbpFeatureManagementDomainSharedModule),
+    typeof(AbpIdentityDomainSharedModule),
+    typeof(AbpOpenIddictDomainSharedModule),
+    typeof(AbpPermissionManagementDomainSharedModule),
+    typeof(AbpSettingManagementDomainSharedModule),
+    typeof(AbpTenantManagementDomainSharedModule)    
+    )]
+public class AbpUserVerificationByEmailDomainSharedModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpAuditLoggingDomainSharedModule),
-        typeof(AbpBackgroundJobsDomainSharedModule),
-        typeof(AbpFeatureManagementDomainSharedModule),
-        typeof(AbpIdentityDomainSharedModule),
-        typeof(AbpIdentityServerDomainSharedModule),
-        typeof(AbpPermissionManagementDomainSharedModule),
-        typeof(AbpSettingManagementDomainSharedModule),
-        typeof(AbpTenantManagementDomainSharedModule)
-        )]
-    public class AbpUserVerificationByEmailDomainSharedModule : AbpModule
+    public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        public override void PreConfigureServices(ServiceConfigurationContext context)
+        AbpUserVerificationByEmailGlobalFeatureConfigurator.Configure();
+        AbpUserVerificationByEmailModuleExtensionConfigurator.Configure();
+    }
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            AbpUserVerificationByEmailGlobalFeatureConfigurator.Configure();
-            AbpUserVerificationByEmailModuleExtensionConfigurator.Configure();
-        }
+            options.FileSets.AddEmbedded<AbpUserVerificationByEmailDomainSharedModule>();
+        });
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpLocalizationOptions>(options =>
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<AbpUserVerificationByEmailDomainSharedModule>();
-            });
+            options.Resources
+                .Add<AbpUserVerificationByEmailResource>("en")
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/AbpUserVerificationByEmail");
 
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Resources
-                    .Add<AbpUserVerificationByEmailResource>("en")
-                    .AddBaseTypes(typeof(AbpValidationResource))
-                    .AddVirtualJson("/Localization/AbpUserVerificationByEmail");
+            options.DefaultResourceType = typeof(AbpUserVerificationByEmailResource);
+        });
 
-                options.DefaultResourceType = typeof(AbpUserVerificationByEmailResource);
-            });
-
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("AbpUserVerificationByEmail", typeof(AbpUserVerificationByEmailResource));
-            });
-        }
+        Configure<AbpExceptionLocalizationOptions>(options =>
+        {
+            options.MapCodeNamespace("AbpUserVerificationByEmail", typeof(AbpUserVerificationByEmailResource));
+        });
     }
 }

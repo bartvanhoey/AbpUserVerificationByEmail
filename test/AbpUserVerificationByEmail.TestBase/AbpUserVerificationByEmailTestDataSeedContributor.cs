@@ -2,15 +2,14 @@
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 
-namespace AbpUserVerificationByEmail
-{
-    public class AbpUserVerificationByEmailTestDataSeedContributor : IDataSeedContributor, ITransientDependency
-    {
-        public Task SeedAsync(DataSeedContext context)
-        {
-            /* Seed additional test data... */
+namespace AbpUserVerificationByEmail;
 
-            return Task.CompletedTask;
-        }
+public class AbpUserVerificationByEmailTestDataSeedContributor : IDataSeedContributor, ITransientDependency
+{
+    public Task SeedAsync(DataSeedContext context)
+    {
+        /* Seed additional test data... */
+
+        return Task.CompletedTask;
     }
 }

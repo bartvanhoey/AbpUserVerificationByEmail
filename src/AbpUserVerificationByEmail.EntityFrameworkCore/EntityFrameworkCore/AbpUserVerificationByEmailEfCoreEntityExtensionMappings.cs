@@ -3,19 +3,19 @@ using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
 
-namespace AbpUserVerificationByEmail.EntityFrameworkCore
+namespace AbpUserVerificationByEmail.EntityFrameworkCore;
+
+public static class AbpUserVerificationByEmailEfCoreEntityExtensionMappings
 {
-    public static class AbpUserVerificationByEmailEfCoreEntityExtensionMappings
+    private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+
+    public static void Configure()
     {
-        private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+        AbpUserVerificationByEmailGlobalFeatureConfigurator.Configure();
+        AbpUserVerificationByEmailModuleExtensionConfigurator.Configure();
 
-        public static void Configure()
+        OneTimeRunner.Run(() =>
         {
-            AbpUserVerificationByEmailGlobalFeatureConfigurator.Configure();
-            AbpUserVerificationByEmailModuleExtensionConfigurator.Configure();
-
-            OneTimeRunner.Run(() =>
-            {
                 /* You can configure extra properties for the
                  * entities defined in the modules used by your application.
                  *
@@ -39,7 +39,6 @@ namespace AbpUserVerificationByEmail.EntityFrameworkCore
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
-            });
-        }
+        });
     }
 }

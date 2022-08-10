@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace AbpUserVerificationByEmail.Data
+namespace AbpUserVerificationByEmail.Data;
+
+public interface IAbpUserVerificationByEmailDbSchemaMigrator
 {
-    public interface IAbpUserVerificationByEmailDbSchemaMigrator
-    {
-        Task MigrateAsync();
-    }
+    Task MigrateAsync();
 }

@@ -2,9 +2,9 @@
 
 ## Introduction
 
-In this article, I will show you how to get a user verified by email after he fills in the registration form in a **Blazor APB application**.
+In this article, I will show you how to get a user verified by email after he fills in the registration form in an **ABP Framework** application.
 
-In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application, however,  you probably would choose another **Email Delivery Service** like **SendGrid, Mailjet, etc.**
+In this article I make use of the free **Google SMTP Server** for sending emails,  in a real-world application, however, you probably would choose another **Email Delivery Service** like **SendGrid, Mailjet, etc.**
 
 ### Source Code
 
@@ -16,14 +16,15 @@ The source code of the completed application is [available on GitHub](https://gi
 
 The following tools are needed to be able to run the solution.
 
-* .NET 5.0 SDK
-* VsCode, Visual Studio 2019 16.8.0+ or another compatible IDE
+* .NET 6.0 SDK
+* VsCode, Visual Studio 2022 or another compatible IDE
+* ABP CLI version 6.0.0
 
 You also need a **Gmail** account to follow along.
 
 ## Development
 
-### Creating a new Application
+### Create a new Application
 
 * Install or update the ABP CLI:
 
@@ -44,7 +45,49 @@ abp new AbpUserVerificationByEmail -u blazor -o AbpUserVerificationByEmail
 * Run the `AbpUserVerificationByEmail.HttpApi.Host` application to start the server-side.
 * Run the `AbpUserVerificationByEmail.Blazor` application to start the Blazor UI project.
 
-## Basic implementation of the RegisterModel
+## Get your Google App Password
+
+1. Navigate to wwww.google.com
+2. Click on your **profile photo** of your **Google account** in the upper right corner of the page
+3. Click Manage **your Google Account**
+4. Click on the **Security** tab
+5. In the **Signing in to Google** section, click on **App Passwords**. Enter your password and click Next
+6. In the App passwords page, **Select app** (or Custom name) and **Select Device** (or Custom name)
+7. Click **Generate** to generate your App password
+8. Copy/paste your app password (remove blank spaces)
+
+## Create a basic EmailService
+
+### EmailService class
+
+* Create a folder **Email** in the **Domain** project of your application.
+* Add an **EmailService.cs** class to the **Email** folder. Copy/paste code below.
+
+```csharp
+using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Emailing;
+using Volo.Abp.Security.Encryption;
+
+namespace AbpUserVerificationByEmail.Domain.Email
+{
+    public class EmailService : ITransientDependency
+    {
+        private readonly IEmailSender _emailSender;
+        public IStringEncryptionService _encryptionService { get; set; }
+
+        public EmailService(IEmailSender emailSender) => _emailSender = emailSender;
+
+        public async Task SendEmailAsync()
+        {
+            var encryptedGoogleAppPassword = _encryptionService.Encrypt("your-Google-App-Password-here");
+            await _emailSender.SendAsync("recipient-email-here", "Email subject", "This is the email body...");
+        }
+    }
+}
+```
+
+### CustomRegisterModel class
 
 * Create a folder structure **Pages/Account** in the **HttpApi.Host** project of your application.
 * Add a **RegisterModel.cs** file to the **Account** folder and paste in code below.
@@ -57,23 +100,22 @@ using Volo.Abp.Account.Web.Pages.Account;
 
 namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 {
-  public class CustomRegisterModel : RegisterModel
-  {
-    private readonly EmailService _emailService;
-
-    public CustomRegisterModel(IAccountAppService accountAppService, EmailService emailService) : base(accountAppService)
+    public class CustomRegisterModel : RegisterModel
     {
-      _emailService = emailService;
-    }
+        private readonly EmailService _emailService;
 
-    protected override async Task RegisterLocalUserAsync()
-    {
-      await _emailService.SendEmailAsync();
-      await base.RegisterLocalUserAsync();
+        public CustomRegisterModel(IAccountAppService accountAppService, EmailService emailService) : base(accountAppService) => _emailService = emailService;
+
+        protected override async Task RegisterLocalUserAsync()
+        {
+            await _emailService.SendEmailAsync();
+            await base.RegisterLocalUserAsync();
+        }
     }
-  }
 }
 ```
+
+### Register.cshtml
 
 * Add a **Register.cshtml** file to the **Account** folder.
 
@@ -116,8 +158,6 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 </div>
 ```
 
-## Implement Email Functionality
-
 ### Comment out the statement that injects class NullEmailSender in the **Domain** project
 
 * In file **AbpUserVerificationByEmailDomainModule.cs**  comment out the statement below.
@@ -130,47 +170,15 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 
 If we don't comment out the statement above, the application will not send emails as class NullEmailSender will be injected by the Dependency Injection.
 
-### Create a basic EmailService
-
-* Create a folder  **Email** in the **Domain** project of your application.
-* Add an **EmailService.cs** class to the **Email** folder. Copy/paste code below.
-
-```csharp
-using System.Threading.Tasks;
-using Volo.Abp.DependencyInjection;
-using Volo.Abp.Emailing;
-using Volo.Abp.Security.Encryption;
-
-namespace AbpUserVerificationByEmail.Domain.Email
-{
-  public class EmailService : ITransientDependency
-  {
-    private readonly IEmailSender _emailSender;
-    public IStringEncryptionService _encryptionService { get; set; }
-
-    public EmailService(IEmailSender emailSender)
-    {
-      _emailSender = emailSender;
-    }
-
-    public async Task SendEmailAsync()
-    {
-      var encryptedGmailPassword = _encryptionService.Encrypt("your-gmail-password-here");
-      await _emailSender.SendAsync("recipient-email-here", "Email subject", "This is the email body...");
-    }
-  }
-}
-```
-
 ### Get the encrypted Gmail password
 
-* Set a breakpoint on the line *await _emailSender.SendAsync("...");*
-* Replace *your Gmail-password-here* with your Gmail password.
+* In the EmailService, set a breakpoint on the line *await _emailSender.SendAsync("...");*
+* Replace *your-Google-App-Password-here* with your generate **Google App Password**.
 * Replace *recipient-email-here* with your email address.
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
-* Copy the value of the **encryptedGmailPassword** when the breakpoint gets hit.
+* Copy the value of the **encryptedGoogleAppPassword** when the breakpoint gets hit.
 * Stop both the Blazor and the HttpApi.Host project.
 * Open file **appsettings.json** in project **HttpApi.Host** and update the **Smtp Settings** with the correct values.
   
@@ -179,7 +187,7 @@ namespace AbpUserVerificationByEmail.Domain.Email
     "Abp.Mailing.Smtp.Host": "smtp.gmail.com",
     "Abp.Mailing.Smtp.Port": "587",
     "Abp.Mailing.Smtp.UserName": "your-gmail-email-address-here",
-    "Abp.Mailing.Smtp.Password": "your-encrypted-gmail-password-here",
+    "Abp.Mailing.Smtp.Password": "your-Google-App-Password-here",
     "Abp.Mailing.Smtp.Domain": "",
     "Abp.Mailing.Smtp.EnableSsl": "true",
     "Abp.Mailing.Smtp.UseDefaultCredentials": "false",
@@ -197,10 +205,7 @@ public class EmailService : ITransientDependency
 {
     private readonly IEmailSender _emailSender;
 
-    public EmailService(IEmailSender emailSender)
-    {
-      _emailSender = emailSender;
-    }
+   public EmailService(IEmailSender emailSender) => _emailSender = emailSender;
 
     public async Task SendEmailAsync()
     {
@@ -210,16 +215,13 @@ public class EmailService : ITransientDependency
  }
 ```
 
-* If you already registered a user, delete it first in table **AbpUsers** in the database.
+* If you already registered the user, delete this user first in table **AbpUsers** in the database.
 * Start both the **Blazor** and **HttpApi.Host** project to run the application.
 * Navigate to the **Login** page again and click on the  [Register](https://localhost:44367/) link.
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
 * If all goes well, you should **receive an email** sent by the EmailService and the **user should have been registered**.
 
-**ATTENTION**: It is possible you need to turn on setting **Access for less secure apps can be easily turned on here** in your **Google** account settings.
-
 **WARNING**: Make sure you **don't publish** your **Google Credentials** to **GitHub** or **another Versioning System**.
-
 
 ## Change Index.razor of the Blazor project
 
@@ -266,20 +268,11 @@ public class EmailService : ITransientDependency
 ```csharp
 // import using statements
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
-    var configuration = context.Services.GetConfiguration();
-    var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-    ConfigureBundles();
-    ConfigureUrls(configuration);
-    ConfigureConventionalControllers();
-    ConfigureAuthentication(context, configuration);
     ConfigureLocalization();
-    ConfigureVirtualFileSystem(context);
-    ConfigureCors(context, configuration);
-    ConfigureSwaggerServices(context);
     ConfigureIdentityOptions(context);
 }
 
@@ -329,16 +322,10 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 
     public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
     {
-      if (email == null)
-      {
-        return RedirectToPage("/Index");
-      }
+      if (email.IsNullOrWhiteSpace()) return RedirectToPage("/Index");
 
       var user = await _userManager.FindByEmailAsync(email);
-      if (user == null)
-      {
-        return NotFound($"Unable to load user with email '{email}'.");
-      }
+      if (user == null) return NotFound($"Unable to load user with email '{email}'.");
 
       // TODO Set to true if you want to display the Account/ConfirmEmail page
       DisplayConfirmAccountLink = false;
@@ -395,6 +382,7 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
 * Create a new file **ConfirmEmailModel.cs** to the **Pages\Account** folder and copy/paste the code below.
 
 ```csharp
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -410,23 +398,14 @@ namespace AbpUserVerificationByEmail.HttpApi.Host.Pages.Account
     {
         private readonly IdentityUserManager _userManager;
 
-        public CustomConfirmEmailModel(IdentityUserManager userManager)
-        {
-            _userManager = userManager;
-        }
+        public CustomConfirmEmailModel(IdentityUserManager userManager) => _userManager = userManager;
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            if (userId == null || code == null)
-            {
-                return RedirectToPage("/Index");
-            }
+            if (userId.IsNullOrWhiteSpace()|| code.IsNullOrWhiteSpace()) return RedirectToPage("/Index");
 
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+            if (user == null) return NotFound($"Unable to load user with ID '{userId}'.");
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);

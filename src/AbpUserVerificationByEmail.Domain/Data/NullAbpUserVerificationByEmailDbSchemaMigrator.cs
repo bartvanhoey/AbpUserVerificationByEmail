@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
-namespace AbpUserVerificationByEmail.Data
+namespace AbpUserVerificationByEmail.Data;
+
+/* This is used if database provider does't define
+ * IAbpUserVerificationByEmailDbSchemaMigrator implementation.
+ */
+public class NullAbpUserVerificationByEmailDbSchemaMigrator : IAbpUserVerificationByEmailDbSchemaMigrator, ITransientDependency
 {
-    /* This is used if database provider does't define
-     * IAbpUserVerificationByEmailDbSchemaMigrator implementation.
-     */
-    public class NullAbpUserVerificationByEmailDbSchemaMigrator : IAbpUserVerificationByEmailDbSchemaMigrator, ITransientDependency
+    public Task MigrateAsync()
     {
-        public Task MigrateAsync()
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

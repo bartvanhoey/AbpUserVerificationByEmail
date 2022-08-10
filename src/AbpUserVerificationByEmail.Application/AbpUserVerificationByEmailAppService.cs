@@ -4,15 +4,14 @@ using System.Text;
 using AbpUserVerificationByEmail.Localization;
 using Volo.Abp.Application.Services;
 
-namespace AbpUserVerificationByEmail
+namespace AbpUserVerificationByEmail;
+
+/* Inherit your application services from this class.
+ */
+public abstract class AbpUserVerificationByEmailAppService : ApplicationService
 {
-    /* Inherit your application services from this class.
-     */
-    public abstract class AbpUserVerificationByEmailAppService : ApplicationService
+    protected AbpUserVerificationByEmailAppService()
     {
-        protected AbpUserVerificationByEmailAppService()
-        {
-            LocalizationResource = typeof(AbpUserVerificationByEmailResource);
-        }
+        LocalizationResource = typeof(AbpUserVerificationByEmailResource);
     }
 }

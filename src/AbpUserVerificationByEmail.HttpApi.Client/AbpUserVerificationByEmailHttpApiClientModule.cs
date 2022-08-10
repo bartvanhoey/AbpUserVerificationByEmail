@@ -6,28 +6,33 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.SettingManagement;
+using Volo.Abp.VirtualFileSystem;
 
-namespace AbpUserVerificationByEmail
+namespace AbpUserVerificationByEmail;
+
+[DependsOn(
+    typeof(AbpUserVerificationByEmailApplicationContractsModule),
+    typeof(AbpAccountHttpApiClientModule),
+    typeof(AbpIdentityHttpApiClientModule),
+    typeof(AbpPermissionManagementHttpApiClientModule),
+    typeof(AbpTenantManagementHttpApiClientModule),
+    typeof(AbpFeatureManagementHttpApiClientModule),
+    typeof(AbpSettingManagementHttpApiClientModule)
+)]
+public class AbpUserVerificationByEmailHttpApiClientModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpUserVerificationByEmailApplicationContractsModule),
-        typeof(AbpAccountHttpApiClientModule),
-        typeof(AbpIdentityHttpApiClientModule),
-        typeof(AbpPermissionManagementHttpApiClientModule),
-        typeof(AbpTenantManagementHttpApiClientModule),
-        typeof(AbpFeatureManagementHttpApiClientModule),
-        typeof(AbpSettingManagementHttpApiClientModule)
-    )]
-    public class AbpUserVerificationByEmailHttpApiClientModule : AbpModule
-    {
-        public const string RemoteServiceName = "Default";
+    public const string RemoteServiceName = "Default";
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        context.Services.AddHttpClientProxies(
+            typeof(AbpUserVerificationByEmailApplicationContractsModule).Assembly,
+            RemoteServiceName
+        );
+
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            context.Services.AddHttpClientProxies(
-                typeof(AbpUserVerificationByEmailApplicationContractsModule).Assembly,
-                RemoteServiceName
-            );
-        }
+            options.FileSets.AddEmbedded<AbpUserVerificationByEmailHttpApiClientModule>();
+        });
     }
 }

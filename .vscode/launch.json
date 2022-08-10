@@ -17,7 +17,7 @@
           "request": "launch",
           "preLaunchTask": "buildApi",
           // If you have changed target frameworks, make sure to update the program path.
-          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host/bin/Debug/net5.0/AbpUserVerificationByEmail.HttpApi.Host.dll",
+          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host/bin/Debug/net6.0/AbpUserVerificationByEmail.HttpApi.Host.dll",
           "args": [],
           "cwd": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host",
           "stopAtEntry": false,
@@ -39,7 +39,7 @@
           "request": "launch",
           "preLaunchTask": "buildApi",
           // If you have changed target frameworks, make sure to update the program path.
-          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host/bin/Debug/net5.0/AbpUserVerificationByEmail.HttpApi.Host.dll",
+          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host/bin/Debug/net6.0/AbpUserVerificationByEmail.HttpApi.Host.dll",
           "args": [],
           "cwd": "${workspaceFolder}/src/AbpUserVerificationByEmail.HttpApi.Host",
           "stopAtEntry": false,
@@ -61,7 +61,7 @@
           "request": "launch",
           "preLaunchTask": "buildDbMigrator",
           // If you have changed target frameworks, make sure to update the program path.
-          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator/bin/Debug/net5.0/AbpUserVerificationByEmail.DbMigrator.dll",
+          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator/bin/Debug/net6.0/AbpUserVerificationByEmail.DbMigrator.dll",
           "args": [],
           "cwd": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator",
           "stopAtEntry": false,
@@ -83,7 +83,7 @@
           "request": "launch",
           "preLaunchTask": "buildDbMigrator",
           // If you have changed target frameworks, make sure to update the program path.
-          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator/bin/Debug/net5.0/AbpUserVerificationByEmail.DbMigrator.dll",
+          "program": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator/bin/Debug/net6.0/AbpUserVerificationByEmail.DbMigrator.dll",
           "args": [],
           "cwd": "${workspaceFolder}/src/AbpUserVerificationByEmail.DbMigrator",
           "stopAtEntry": false,
@@ -101,4 +101,4 @@
           "configurations": ["ApiDevelopment", "Blazor"]
       }
   ]
-}
+}   

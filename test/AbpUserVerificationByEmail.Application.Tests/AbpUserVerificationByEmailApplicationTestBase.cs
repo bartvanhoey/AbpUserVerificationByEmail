@@ -1,7 +1,6 @@
-﻿namespace AbpUserVerificationByEmail
-{
-    public abstract class AbpUserVerificationByEmailApplicationTestBase : AbpUserVerificationByEmailTestBase<AbpUserVerificationByEmailApplicationTestModule> 
-    {
+﻿namespace AbpUserVerificationByEmail;
 
-    }
+public abstract class AbpUserVerificationByEmailApplicationTestBase : AbpUserVerificationByEmailTestBase<AbpUserVerificationByEmailApplicationTestModule>
+{
+
 }
