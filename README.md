@@ -180,7 +180,8 @@ If we don't comment out the statement above, the application will not send email
 * Fill in the form of the **My Custom Register Page** and click the **Register** button.
 * Copy the value of the **encryptedGoogleAppPassword** when the breakpoint gets hit.
 * Stop both the Blazor and the HttpApi.Host project.
-* Open file **appsettings.json** in project **HttpApi.Host** and update the **Smtp Settings** with the correct values.
+* Open file **appsettings.json** in project **HttpApi.Host** 
+* Add a **Settings** section and update the **Smtp Settings** with the correct values.
   
 ```json
 "Settings": {
